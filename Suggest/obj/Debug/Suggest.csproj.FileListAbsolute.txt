@@ -1,0 +1,17 @@
+C:\Search365\Search365.Suggest\Suggest\bin\Suggest.dll.config
+C:\Search365\Search365.Suggest\Suggest\bin\Suggest.dll
+C:\Search365\Search365.Suggest\Suggest\bin\Suggest.pdb
+C:\Search365\Search365.Suggest\Suggest\obj\Debug\Suggest.csprojResolveAssemblyReference.cache
+C:\Search365\Search365.Suggest\Suggest\obj\Debug\Suggest.dll
+C:\Search365\Search365.Suggest\Suggest\obj\Debug\Suggest.pdb
+H:\Search\suggest\Suggest\bin\Suggest.dll.config
+H:\Search\suggest\Suggest\bin\Suggest.dll
+H:\Search\suggest\Suggest\bin\Suggest.pdb
+H:\Search\suggest\Suggest\obj\Debug\Suggest.csprojResolveAssemblyReference.cache
+H:\Search\suggest\Suggest\obj\Debug\Suggest.dll
+H:\Search\suggest\Suggest\obj\Debug\Suggest.pdb
+\\vmware-host\Shared Folders\Desktop\aar\Search\suggest\Suggest\bin\Suggest.dll
+\\vmware-host\Shared Folders\Desktop\aar\Search\suggest\Suggest\bin\Suggest.pdb
+\\vmware-host\Shared Folders\Desktop\aar\Search\suggest\Suggest\obj\Debug\Suggest.csprojResolveAssemblyReference.cache
+\\vmware-host\Shared Folders\Desktop\aar\Search\suggest\Suggest\obj\Debug\Suggest.dll
+\\vmware-host\Shared Folders\Desktop\aar\Search\suggest\Suggest\obj\Debug\Suggest.pdb
