@@ -66,21 +66,16 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="js\65x65textphoto.png" />
-    <Content Include="js\arrow-down_grey.svg" />
-    <Content Include="js\bundle.js" />
-    <Content Include="js\css.css" />
-    <Content Include="js\data.html" />
-    <Content Include="js\elastic-data.js" />
+    <Content Include="img\65x65textphoto.png" />
+    <Content Include="img\arrow-down_grey.svg" />
+    <Content Include="css\css.css" />
     <Content Include="js\global.js" />
-    <Content Include="js\intranet-logo.svg" />
+    <Content Include="img\intranet-logo.svg" />
     <Content Include="js\jquery.js" />
-    <Content Include="js\json.js" />
-    <Content Include="js\main.css" />
-    <Content Include="js\modernizr.js" />
+    <Content Include="js\data.js" />
+    <Content Include="css\main.css" />
     <Content Include="js\plugins.js" />
-    <Content Include="js\react.js" />
-    <Content Include="js\two-people-icon.png" />
+    <Content Include="img\two-people-icon.png" />
     <Content Include="Web.config" />
     <Content Include="workspace.html" />
     <Content Include="workspace_static.html" />

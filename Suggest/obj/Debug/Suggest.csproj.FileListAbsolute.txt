@@ -15,3 +15,9 @@ H:\Search\suggest\Suggest\obj\Debug\Suggest.pdb
 \\vmware-host\Shared Folders\Desktop\aar\Search\suggest\Suggest\obj\Debug\Suggest.csprojResolveAssemblyReference.cache
 \\vmware-host\Shared Folders\Desktop\aar\Search\suggest\Suggest\obj\Debug\Suggest.dll
 \\vmware-host\Shared Folders\Desktop\aar\Search\suggest\Suggest\obj\Debug\Suggest.pdb
+C:\web\sandpit\Suggest\bin\Suggest.dll.config
+C:\web\sandpit\Suggest\bin\Suggest.dll
+C:\web\sandpit\Suggest\bin\Suggest.pdb
+C:\web\sandpit\Suggest\obj\Debug\Suggest.csprojResolveAssemblyReference.cache
+C:\web\sandpit\Suggest\obj\Debug\Suggest.dll
+C:\web\sandpit\Suggest\obj\Debug\Suggest.pdb

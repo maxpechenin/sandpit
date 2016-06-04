@@ -4,38 +4,23 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Search</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- AGLS Global Schema //-->
-    <!-- System Defined //-->
-    <meta name="dcterms.title" content="Search">
-    <meta name="dcterms.creator" content="b15">
-    <meta name="dcterms.created" content="2015-06-04T11:35:45+10:00">
-    <meta name="dcterms.issued" content="2015-06-11T15:51:12+10:00">
-    <meta name="dcterms.modified" content="2015-06-19T11:18:07+10:00">
-    <meta name="dcterms.identifier" content="/some/path">
-    <meta name="dcterms.publisher" content="">
-    <meta name="dcterms.language" content="en">
-    <meta name="dcterms.format" content="text/html">
-    <!-- User Defined //-->
-    <meta name="dcterms.description" content="">
-    <!-- Internal Use -->
-    <link rel="stylesheet" type="text/css" href="./js/main.css" media="all">
-    <link rel="stylesheet" type="text/css" href="./js/css.css" media="all">
-    <!--
-      Running ...
-    -->
+    <link rel="stylesheet" type="text/css" href="./css/main.css" media="all">
+    <link rel="stylesheet" type="text/css" href="./css/css.css" media="all">
 </head>
 <body>
     <header class="header">
         <div class="layout-max">
             <div class="layout-header">
                 <div class="layout-header__main">
-                    <!--Logo-->
                     <a href="" rel="home" class="header__logo" title="Intranet Homepage">
-                        <img src="./js/intranet-logo.svg" alt="" class="header__logo-image">
+                        <img src="img/intranet-logo.svg" alt="" class="header__logo-image">
                     </a>
-                    <!--Search-->
-                    <div class="header-search" id="header-search"><form class="quick-search-component" data-reactid=".0"><label for="header-search_input" class="element-invisible" data-reactid=".0.0">Search</label><input type="text" id="header-search_input" autocomplete="false" class="header-search__input" data-reactid=".0.1"><input type="submit" class="header-search__icon" value="Submit" data-reactid=".0.2"></form></div>
-                    <!--START Auto Suggestion-->
+                    <div class="header-search" id="header-search">
+                        <form class="quick-search-component" data-reactid=".0">
+                            <label for="header-search_input" class="element-invisible">Search</label>
+                            <input type="text" id="header-search_input" autocomplete="false" class="header-search__input">
+                        </form>
+                    </div>
                     <div class="auto-suggestion">
                         <div class="auto-suggestion_keyword">
                             <h2>Contact</h2>
@@ -85,7 +70,6 @@
                             <h2>Client</h2>
                             <ul>
                                 <li class="document-item">
-                                    <!-- <div class="document-item_col1"><a href="http://document.txt" class="document-item_icon"></a></div> -->
                                     <div class="document-item_col2">
                                         <a href="./json.html#" class="document-item_link">Whether or not, Ltd</a>
                                         <div class="suggestion-item__handle">Sector Lead: <a href="./json.html#">John Smith</a></div>
@@ -93,7 +77,6 @@
                                     </div>
                                 </li>
                                 <li class="document-item">
-                                    <!-- <div class="document-item_col1"><a href="http://document.txt" class="document-item_icon"></a></div> -->
                                     <div class="document-item_col2">
                                         <a href="./json.html#" class="document-item_link">Whether or not, Ltd</a>
                                         <div class="suggestion-item__handle">Sector Lead: <a href="./json.html#">John Smith</a></div>
@@ -101,7 +84,6 @@
                                     </div>
                                 </li>
                                 <li class="document-item">
-                                    <!-- <div class="document-item_col1"><a href="http://document.txt" class="document-item_icon"></a></div> -->
                                     <div class="document-item_col2">
                                         <a href="./json.html#" class="document-item_link">Whether or not, Ltd</a>
                                         <div class="suggestion-item__handle">Sector Lead: <a href="./json.html#">John Smith</a></div>
@@ -109,7 +91,6 @@
                                     </div>
                                 </li>
                                 <li class="document-item">
-                                    <!-- <div class="document-item_col1"><a href="http://document.txt" class="document-item_icon"></a></div> -->
                                     <div class="document-item_col2">
                                         <a href="./json.html#" class="document-item_link">Whether or not, Ltd</a>
                                         <div class="suggestion-item__handle">Sector Lead: <a href="./json.html#">John Smith</a></div>
@@ -119,42 +100,11 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="suggestion-page-fade"></div>
-                    <!--END Auto Suggestion //-->
-                </div>
-                <div class="layout-header__sidebar">
-                    <!--user_menu class required for drop down below-->
-                    <div class="header-personal user_menu">
-                        <!--   //-->
-                        <!--START USER MENU DROP DOWN (Requires class 'user_menu' above to work correctly)-->
-                        <a href="./profile" class="header-personal__name user_menu" title="Profile page link">
-                            <p>Paul Kelly</p>
-                            <img class="header-personal__icon" src="./js/arrow-down_grey.svg" alt="">
-                        </a>
-                        <div class="header-personal__dropdown user_menu">
-                            <div class="profile-action profile-action--profile">
-                                <a href="./profile" class="dropdown-link"><span>&nbsp;</span>Edit profile</a>
-                            </div>
-                            <div class="profile-action profile-action--following">
-                                <a href="./json.html#" class="dropdown-link"><span>28</span>Following</a>
-                            </div>
-                            <div class="profile-action profile-action--followers">
-                                <a href="./json.html#" class="dropdown-link"><span>56</span>Followers</a>
-                            </div>
-                            <div class="profile-action profile-action--business-tools">
-                                <a href="./profile/my-business-tools" class="dropdown-link"><span>&nbsp;</span>My business tools</a>
-                            </div>
-                            <div class="profile-action profile-action--favorites">
-                                <a href="./profile/my-favourites" class="dropdown-link"><span>&nbsp;</span>My favorites</a>
-                            </div>
-                        </div>
-                        <!--END USER MENU DROP DOWN //-->
-                    </div>
                 </div>
             </div>
         </div>
     </header>
-<script src="./js/jquery.js"></script><!-- jQuery -->
-<script src="./js/global.js"></script><!-- Global scripts -->
+<script src="./js/jquery.js"></script>
+<script src="./js/global.js"></script>
 </body>
 </html>

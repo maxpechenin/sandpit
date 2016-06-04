@@ -1,15 +1,4 @@
 
-/*-- module:user-menu --*/
-(function($){
-    'use strict';
-    var $userMenu = $('.user_menu');
-            
-    $('body').on('click','.header-personal__name', function(event){
-        $userMenu.toggleClass('open');
-        event.preventDefault();
-    });
-}(jQuery));
-
 (function($){
     'use strict';
     var $searchField = $('#header-search_input'),
@@ -28,9 +17,9 @@
 
 function searchData(query){
     $.ajax({
-        type: "POST",
+        type: "GET",
         dataType: "json",
-        url: "json.js",
+        url: "js/data.js",
         data: {query: query},
         success: function(data)
         {
@@ -46,7 +35,7 @@ function searchData(query){
             }
 
             for(var people_count=0;people_count<people.People.length;people_count++){
-                $('.auto-suggestion_people ul').append('<li class="suggestion-item"><div class="suggestion-item_col1"><img src="/js/65x65textphoto.png" class="suggestion-item__photo" alt=""></div><div class="suggestion-item_col2"><h4 class="suggestion-item__name">'+people.People[people_count].name+'</h4><div class="suggestion-item__handle"><a href="#">'+people.People[people_count].handle+'</a></div><div class="suggestion-item__title-extension"><div>'+people.People[people_count].title+'</div><div>ex: <a href="#">'+people.People[people_count].ex+'</a></div></div><a href="#" class="suggestion-item__email" title="email">'+people.People[people_count].email+'</a></div></li>');
+                $('.auto-suggestion_people ul').append('<li class="suggestion-item"><div class="suggestion-item_col1"><img src="/img/65x65textphoto.png" class="suggestion-item__photo" alt=""></div><div class="suggestion-item_col2"><h4 class="suggestion-item__name">'+people.People[people_count].name+'</h4><div class="suggestion-item__handle"><a href="#">'+people.People[people_count].handle+'</a></div><div class="suggestion-item__title-extension"><div>'+people.People[people_count].title+'</div><div>ex: <a href="#">'+people.People[people_count].ex+'</a></div></div><a href="#" class="suggestion-item__email" title="email">'+people.People[people_count].email+'</a></div></li>');
             }
 
             for(var documents_count=0;documents_count<documents.Documents.length;documents_count++){

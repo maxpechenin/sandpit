@@ -1,0 +1,15 @@
+{
+  "name": "sandpit",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "purify": "node purify-css.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kelpau/sandpit.git"
+  },
+  "devDependencies": {
+    "purify-css": "^1.1.9"
+  }
+}
