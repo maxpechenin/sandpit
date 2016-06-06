@@ -13,36 +13,68 @@
             $suggest.removeClass('open');
         }
     });
-})(jQuery);
 
-function searchData(query){
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: "js/data.js",
-        data: {query: query},
-        success: function(data)
-        {
-            $('.auto-suggestion_keyword ul').html('');
-            $('.auto-suggestion_people ul').html('');
-            $('.auto-suggestion_documents ul').html('');
-            var keyword = data[0];
-            var people = data[1];
-            var documents = data[2];
+    var lists = {
+        Keyword: {
+            tpl: $('#keyword_template').html(),
+            $list: $('.auto-suggestion_keyword ul')
+        },
+        People: {
+            tpl: $('#people_template').html(),
+            $list: $('.auto-suggestion_people ul')
+        },
+        Documents: {
+            tpl: $('#document_template').html(),
+            $list: $('.auto-suggestion_documents ul')
+        }
+    }
 
-            for(var keyword_count=0;keyword_count<keyword.Keyword.length;keyword_count++){
-                $('.auto-suggestion_keyword ul').append('<li><a href="#">'+keyword.Keyword[keyword_count].title+'</a></li>');
-            }
 
-            for(var people_count=0;people_count<people.People.length;people_count++){
-                $('.auto-suggestion_people ul').append('<li class="suggestion-item"><div class="suggestion-item_col1"><img src="/img/65x65textphoto.png" class="suggestion-item__photo" alt=""></div><div class="suggestion-item_col2"><h4 class="suggestion-item__name">'+people.People[people_count].name+'</h4><div class="suggestion-item__handle"><a href="#">'+people.People[people_count].handle+'</a></div><div class="suggestion-item__title-extension"><div>'+people.People[people_count].title+'</div><div>ex: <a href="#">'+people.People[people_count].ex+'</a></div></div><a href="#" class="suggestion-item__email" title="email">'+people.People[people_count].email+'</a></div></li>');
-            }
+    function clearLists() {
+        for (var i in lists) {
+            lists[i].$list.html('');
+        }
+    }
 
-            for(var documents_count=0;documents_count<documents.Documents.length;documents_count++){
-                $('.auto-suggestion_documents ul').append('<li class="document-item"><div class="document-item_col1"><a href="'+documents.Documents[documents_count].link+'" class="document-item_icon"></a></div><div class="document-item_col2"><a href="#" class="document-item_link">'+documents.Documents[documents_count].title+'</a><div>'+documents.Documents[documents_count].size+'</div><div>Date modified: '+documents.Documents[documents_count].date+'</div></div></li>');
+    function fillList(data) {
+        for (var i in data) {
+            for (var j = 0; j < data[i].length; j++) {
+                lists[i].$list.append(Mustache.render(lists[i].tpl, data[i][j]))
             }
         }
+    }
 
-    });
+    function itemContainQuery(query, item) {
+        for (var i in item) {
+            if (item[i].indexOf(query) !== -1)
+                return true;
+        }
+        return false;
+    }
 
-}
+    function filterData(data, query) {
+        var filteredData = {};
+        for (var i in data) {
+            filteredData[i] = data[i].filter(itemContainQuery.bind(this, query));
+        }
+        return filteredData;
+    }
+
+    function searchData(query){
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "js/data.js",
+            data: {query: query},
+            success: function(data)
+            {
+                clearLists();
+                for (var i = 0; i < data.length; i++) {
+                    fillList(filterData(data[i], query));
+                }
+            }
+
+        });
+
+    }
+})(jQuery);

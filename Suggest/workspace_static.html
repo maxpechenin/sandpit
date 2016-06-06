@@ -7,6 +7,41 @@
     <link rel="stylesheet" type="text/css" href="./css/main.css" media="all">
     <link rel="stylesheet" type="text/css" href="./css/css.css" media="all">
 </head>
+<script type="javascript/template" id="keyword_template">
+    <li>
+        <a href="#">{{title}}</a>
+    </li>
+</script>
+<script type="javascript/template" id="people_template">
+    <li class="suggestion-item">
+        <div class="suggestion-item_col1">
+            <img src="/img/65x65textphoto.png" class="suggestion-item__photo" alt="">
+        </div>
+        <div class="suggestion-item_col2">
+            <h4 class="suggestion-item__name">{{name}}</h4>
+            <div class="suggestion-item__handle"><a href="#">{{handle}}</a></div>
+            <div class="suggestion-item__title-extension">
+                <div>{{title}}</div>
+                <div>ex: <a href="#">{{ex}}</a></div>
+            </div>
+            <div>
+                <a href="#" class="suggestion-item__email" title="email">{{email}}</a>
+            </div>
+        </div>
+    </li>
+</script>
+<script type="javascript/template" id="document_template">
+    <li class="document-item">
+        <div class="document-item_col1">
+            <a href="{{link}}" class="document-item_icon"></a>
+        </div>
+        <div class="document-item_col2">
+            <a href="#" class="document-item_link">{{title}}</a>
+            <div>{{size}}</div>
+            <div>Date modified: {{date}}</div>
+        </div>
+    </li>
+</script>
 <body>
     <header class="header">
         <div class="layout-max">
@@ -25,78 +60,16 @@
                         <div class="auto-suggestion_keyword">
                             <h2>Contact</h2>
                             <ul>
-                                <li><a href="./workspace_static.html#">ipsum dolor</a></li>
-                                <li><a href="./workspace_static.html#">aliquip exea</a></li>
-                                <li><a href="./workspace_static.html#">Duis auteirure</a></li>
-                                <li><a href="./workspace_static.html#">deseruntmollit</a></li>
-                                <li><a href="./workspace_static.html#">fugiat nulla pariatur</a></li>
-                                <li><a href="./workspace_static.html#">cillum dolore eu</a></li>
-                                <li><a href="./workspace_static.html#">officia deserunt</a></li>
-                                <li><a href="./workspace_static.html#">cillum dolore</a></li>
-                                <li><a href="./workspace_static.html#">anim id est</a></li>
-                                <li><a href="./workspace_static.html#">tempor incididunt</a></li>
                             </ul>
                         </div>
                         <div class="auto-suggestion_people">
                             <h2>Matter</h2>
                             <ul>
-                                <li class="suggestion-item">
-                                    <div class="suggestion-item_col2">
-                                        <h4 class="suggestion-item__name">Mattername</h4>
-                                        <div class="suggestion-item__handle">Client: <a href="./json.html#">Whetherby &amp; Co</a></div>
-                                        <div class="suggestion-item__handle">Lead Partner: <a href="./json.html#">John Smith</a></div>
-                                        <div class="suggestion-item__handle">Matter #: <a href="./json.html#">3456</a></div>
-                                    </div>
-                                </li>
-                                <li class="suggestion-item">
-                                    <div class="suggestion-item_col2">
-                                        <h4 class="suggestion-item__name">Mattername</h4>
-                                        <div class="suggestion-item__handle">Client: <a href="./json.html#">Whetherby &amp; Co</a></div>
-                                        <div class="suggestion-item__handle">Lead Partner: <a href="./json.html#">John Smith</a></div>
-                                        <div class="suggestion-item__handle">Matter #: <a href="./json.html#">3456</a></div>
-                                    </div>
-                                </li>
-                                <li class="suggestion-item">
-                                    <div class="suggestion-item_col2">
-                                        <h4 class="suggestion-item__name">Mattername</h4>
-                                        <div class="suggestion-item__handle">Client: <a href="./json.html#">Whetherby &amp; Co</a></div>
-                                        <div class="suggestion-item__handle">Lead Partner: <a href="./json.html#">John Smith</a></div>
-                                        <div class="suggestion-item__handle">Matter #: <a href="./json.html#">3456</a></div>
-                                    </div>
-                                </li>
-                              </ul>
+                            </ul>
                         </div>
                         <div class="auto-suggestion_documents">
                             <h2>Client</h2>
                             <ul>
-                                <li class="document-item">
-                                    <div class="document-item_col2">
-                                        <a href="./json.html#" class="document-item_link">Whether or not, Ltd</a>
-                                        <div class="suggestion-item__handle">Sector Lead: <a href="./json.html#">John Smith</a></div>
-                                        <div class="suggestion-item__handle">CRP1: <a href="./json.html#">PXAS</a></div>
-                                    </div>
-                                </li>
-                                <li class="document-item">
-                                    <div class="document-item_col2">
-                                        <a href="./json.html#" class="document-item_link">Whether or not, Ltd</a>
-                                        <div class="suggestion-item__handle">Sector Lead: <a href="./json.html#">John Smith</a></div>
-                                        <div class="suggestion-item__handle">CRP1: <a href="./json.html#">PXAS</a></div>
-                                    </div>
-                                </li>
-                                <li class="document-item">
-                                    <div class="document-item_col2">
-                                        <a href="./json.html#" class="document-item_link">Whether or not, Ltd</a>
-                                        <div class="suggestion-item__handle">Sector Lead: <a href="./json.html#">John Smith</a></div>
-                                        <div class="suggestion-item__handle">CRP1: <a href="./json.html#">PXAS</a></div>
-                                    </div>
-                                </li>
-                                <li class="document-item">
-                                    <div class="document-item_col2">
-                                        <a href="./json.html#" class="document-item_link">Whether or not, Ltd</a>
-                                        <div class="suggestion-item__handle">Sector Lead: <a href="./json.html#">John Smith</a></div>
-                                        <div class="suggestion-item__handle">CRP1: <a href="./json.html#">PXAS</a></div>
-                                    </div>
-                                </li>
                             </ul>
                         </div>
                     </div>
@@ -105,6 +78,7 @@
         </div>
     </header>
 <script src="./js/jquery.js"></script>
+<script src="./js/mustache.min.js"></script>
 <script src="./js/global.js"></script>
 </body>
 </html>
