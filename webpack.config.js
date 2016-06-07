@@ -15,5 +15,14 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  devServer: {
+    contentBase: 'Suggest\\',
+    proxy: {
+      '/search*': {
+        target: 'http://40.127.88.96/search',
+        secure: false
+      }
+    }
+  }   
 }

@@ -20412,7 +20412,7 @@
 /* 169 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -20424,6 +20424,14 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _simpleAjax = __webpack_require__(170);
+
+	var _simpleAjax2 = _interopRequireDefault(_simpleAjax);
+
+	var _searchResults = __webpack_require__(173);
+
+	var _searchResults2 = _interopRequireDefault(_searchResults);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -20432,24 +20440,724 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var Form = function (_React$Component) {
+	  _inherits(Form, _React$Component);
+
+	  function Form() {
+	    _classCallCheck(this, Form);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Form).call(this));
+
+	    _this.loadAndProcessData = _this._loadAndProcessData.bind(_this);
+	    _this.url = '/search';
+	    _this.threshold = 1;
+	    _this.state = {
+	      data: [],
+	      query: ''
+	    };
+	    return _this;
+	  }
+
+	  _createClass(Form, [{
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate(props, state) {
+	      if (this.state.query !== state.query) this._loadAndProcessData();
+	    }
+	  }, {
+	    key: '_loadAndProcessData',
+	    value: function _loadAndProcessData() {
+	      var _this2 = this;
+
+	      var query = this.state.query;
+	      var request = new _simpleAjax2.default({
+	        url: this.url,
+	        method: 'GET',
+	        dataType: 'JSON',
+	        data: { q: this.state.query }
+	      });
+	      request.on('success', function (response) {
+	        if (query === _this2.state.query) {
+	          _this2.setState({ data: JSON.parse(response.currentTarget.response).aggregations.suggestions.buckets });
+	        }
+	      });
+	      request.send();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this3 = this;
+
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'header-search', id: 'header-search' },
+	          _react2.default.createElement(
+	            'form',
+	            { className: 'quick-search-component', 'data-reactid': '.0' },
+	            _react2.default.createElement(
+	              'label',
+	              { 'for': 'header-search_input', className: 'element-invisible' },
+	              'Search'
+	            ),
+	            _react2.default.createElement('input', { value: this.state.query,
+	              onChange: function onChange(e) {
+	                return _this3.setState({ query: e.target.value });
+	              },
+	              type: 'text',
+	              autocomplete: 'false',
+	              className: 'header-search__input' })
+	          )
+	        ),
+	        _react2.default.createElement(_searchResults2.default, { opened: this.state.query.length >= this.threshold, data: this.state.data })
+	      );
+	    }
+	  }]);
+
+	  return Form;
+	}(_react2.default.Component);
+
+	exports.default = Form;
+
+/***/ },
+/* 170 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var EventEmitter = __webpack_require__(171).EventEmitter,
+	    queryString = __webpack_require__(172);
+
+	function tryParseJson(data){
+	    try{
+	        return JSON.parse(data);
+	    }catch(error){
+	        return error;
+	    }
+	}
+
+	function timeout(){
+	   this.request.abort();
+	   this.emit('timeout');
+	}
+
+	function Ajax(settings){
+	    var queryStringData,
+	        ajax = this;
+
+	    if(typeof settings === 'string'){
+	        settings = {
+	            url: settings
+	        };
+	    }
+
+	    if(typeof settings !== 'object'){
+	        settings = {};
+	    }
+
+	    ajax.settings = settings;
+	    ajax.request = new XMLHttpRequest();
+	    ajax.settings.method = ajax.settings.method || 'get';
+
+	    if(ajax.settings.cors){
+	        if ('withCredentials' in ajax.request) {
+	            ajax.request.withCredentials = !!settings.withCredentials;
+	        } else if (typeof XDomainRequest !== 'undefined') {
+	            // XDomainRequest only exists in IE, and is IE's way of making CORS requests.
+	            ajax.request = new XDomainRequest();
+	        } else {
+	            // Otherwise, CORS is not supported by the browser.
+	            ajax.emit('error', new Error('Cors is not supported by this browser'));
+	        }
+	    }
+
+	    if(ajax.settings.cache === false){
+	        ajax.settings.data = ajax.settings.data || {};
+	        ajax.settings.data._ = new Date().getTime();
+	    }
+
+	    if(ajax.settings.method.toLowerCase() === 'get' && typeof ajax.settings.data === 'object'){
+	        var urlParts = ajax.settings.url.split('?');
+
+	        queryStringData = queryString.parse(urlParts[1]);
+
+	        for(var key in ajax.settings.data){
+	            queryStringData[key] = ajax.settings.data[key];
+	        }
+
+	        var parsedQueryStringData = queryString.stringify(queryStringData);
+
+	        ajax.settings.url = urlParts[0] + (parsedQueryStringData ? '?' + parsedQueryStringData : '');
+	        ajax.settings.data = null;
+	    }
+
+	    ajax.request.addEventListener('progress', function(event){
+	        ajax.emit('progress', event);
+	    }, false);
+
+	    ajax.request.addEventListener('load', function(event){
+	        var data = event.target.responseText;
+
+	        if(ajax.settings.dataType && ajax.settings.dataType.toLowerCase() === 'json'){
+	            if(data === ''){
+	                data = undefined;
+	            }else{
+	                data = tryParseJson(data);
+	                if(data instanceof Error){
+	                    ajax.emit('error', event, data);
+	                    return;
+	                }
+	            }
+	        }
+
+	        if(event.target.status >= 400){
+	            ajax.emit('error', event, data);
+	        } else {
+	            ajax.emit('success', event, data);
+	        }
+
+	    }, false);
+
+	    ajax.request.addEventListener('error', function(event){
+	        ajax.emit('error', event);
+	    }, false);
+
+	    ajax.request.addEventListener('abort', function(event){
+	        ajax.emit('error', event, new Error('Connection Aborted'));
+	        ajax.emit('abort', event);
+	    }, false);
+
+	    ajax.request.addEventListener('loadend', function(event){
+	        clearTimeout(this._requestTimeout);
+	        ajax.emit('complete', event);
+	    }, false);
+
+	    ajax.request.open(ajax.settings.method || 'get', ajax.settings.url, true);
+
+	    // Set default headers
+	    if(ajax.settings.contentType !== false){
+	        ajax.request.setRequestHeader('Content-Type', ajax.settings.contentType || 'application/json; charset=utf-8');
+	    }
+	    if(ajax.settings.requestedWith !== false) {
+	        ajax.request.setRequestHeader('X-Requested-With', ajax.settings.requestedWith || 'XMLHttpRequest');
+	    }
+	    if(ajax.settings.auth){
+	        ajax.request.setRequestHeader('Authorization', ajax.settings.auth);
+	    }
+
+	    // Set custom headers
+	    for(var headerKey in ajax.settings.headers){
+	        ajax.request.setRequestHeader(headerKey, ajax.settings.headers[headerKey]);
+	    }
+
+	    if(ajax.settings.processData !== false && ajax.settings.dataType === 'json'){
+	        ajax.settings.data = JSON.stringify(ajax.settings.data);
+	    }
+	}
+
+	Ajax.prototype = Object.create(EventEmitter.prototype);
+
+	Ajax.prototype.send = function(){
+	    this._requestTimeout = setTimeout(
+	        timeout.bind(this),
+	        this.settings.timeout || 120000
+	    );
+	    this.request.send(this.settings.data && this.settings.data);
+	};
+
+	module.exports = Ajax;
+
+
+/***/ },
+/* 171 */
+/***/ function(module, exports) {
+
+	// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+	function EventEmitter() {
+	  this._events = this._events || {};
+	  this._maxListeners = this._maxListeners || undefined;
+	}
+	module.exports = EventEmitter;
+
+	// Backwards-compat with node 0.10.x
+	EventEmitter.EventEmitter = EventEmitter;
+
+	EventEmitter.prototype._events = undefined;
+	EventEmitter.prototype._maxListeners = undefined;
+
+	// By default EventEmitters will print a warning if more than 10 listeners are
+	// added to it. This is a useful default which helps finding memory leaks.
+	EventEmitter.defaultMaxListeners = 10;
+
+	// Obviously not all Emitters should be limited to 10. This function allows
+	// that to be increased. Set to zero for unlimited.
+	EventEmitter.prototype.setMaxListeners = function(n) {
+	  if (!isNumber(n) || n < 0 || isNaN(n))
+	    throw TypeError('n must be a positive number');
+	  this._maxListeners = n;
+	  return this;
+	};
+
+	EventEmitter.prototype.emit = function(type) {
+	  var er, handler, len, args, i, listeners;
+
+	  if (!this._events)
+	    this._events = {};
+
+	  // If there is no 'error' event listener then throw.
+	  if (type === 'error') {
+	    if (!this._events.error ||
+	        (isObject(this._events.error) && !this._events.error.length)) {
+	      er = arguments[1];
+	      if (er instanceof Error) {
+	        throw er; // Unhandled 'error' event
+	      }
+	      throw TypeError('Uncaught, unspecified "error" event.');
+	    }
+	  }
+
+	  handler = this._events[type];
+
+	  if (isUndefined(handler))
+	    return false;
+
+	  if (isFunction(handler)) {
+	    switch (arguments.length) {
+	      // fast cases
+	      case 1:
+	        handler.call(this);
+	        break;
+	      case 2:
+	        handler.call(this, arguments[1]);
+	        break;
+	      case 3:
+	        handler.call(this, arguments[1], arguments[2]);
+	        break;
+	      // slower
+	      default:
+	        args = Array.prototype.slice.call(arguments, 1);
+	        handler.apply(this, args);
+	    }
+	  } else if (isObject(handler)) {
+	    args = Array.prototype.slice.call(arguments, 1);
+	    listeners = handler.slice();
+	    len = listeners.length;
+	    for (i = 0; i < len; i++)
+	      listeners[i].apply(this, args);
+	  }
+
+	  return true;
+	};
+
+	EventEmitter.prototype.addListener = function(type, listener) {
+	  var m;
+
+	  if (!isFunction(listener))
+	    throw TypeError('listener must be a function');
+
+	  if (!this._events)
+	    this._events = {};
+
+	  // To avoid recursion in the case that type === "newListener"! Before
+	  // adding it to the listeners, first emit "newListener".
+	  if (this._events.newListener)
+	    this.emit('newListener', type,
+	              isFunction(listener.listener) ?
+	              listener.listener : listener);
+
+	  if (!this._events[type])
+	    // Optimize the case of one listener. Don't need the extra array object.
+	    this._events[type] = listener;
+	  else if (isObject(this._events[type]))
+	    // If we've already got an array, just append.
+	    this._events[type].push(listener);
+	  else
+	    // Adding the second element, need to change to array.
+	    this._events[type] = [this._events[type], listener];
+
+	  // Check for listener leak
+	  if (isObject(this._events[type]) && !this._events[type].warned) {
+	    if (!isUndefined(this._maxListeners)) {
+	      m = this._maxListeners;
+	    } else {
+	      m = EventEmitter.defaultMaxListeners;
+	    }
+
+	    if (m && m > 0 && this._events[type].length > m) {
+	      this._events[type].warned = true;
+	      console.error('(node) warning: possible EventEmitter memory ' +
+	                    'leak detected. %d listeners added. ' +
+	                    'Use emitter.setMaxListeners() to increase limit.',
+	                    this._events[type].length);
+	      if (typeof console.trace === 'function') {
+	        // not supported in IE 10
+	        console.trace();
+	      }
+	    }
+	  }
+
+	  return this;
+	};
+
+	EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+
+	EventEmitter.prototype.once = function(type, listener) {
+	  if (!isFunction(listener))
+	    throw TypeError('listener must be a function');
+
+	  var fired = false;
+
+	  function g() {
+	    this.removeListener(type, g);
+
+	    if (!fired) {
+	      fired = true;
+	      listener.apply(this, arguments);
+	    }
+	  }
+
+	  g.listener = listener;
+	  this.on(type, g);
+
+	  return this;
+	};
+
+	// emits a 'removeListener' event iff the listener was removed
+	EventEmitter.prototype.removeListener = function(type, listener) {
+	  var list, position, length, i;
+
+	  if (!isFunction(listener))
+	    throw TypeError('listener must be a function');
+
+	  if (!this._events || !this._events[type])
+	    return this;
+
+	  list = this._events[type];
+	  length = list.length;
+	  position = -1;
+
+	  if (list === listener ||
+	      (isFunction(list.listener) && list.listener === listener)) {
+	    delete this._events[type];
+	    if (this._events.removeListener)
+	      this.emit('removeListener', type, listener);
+
+	  } else if (isObject(list)) {
+	    for (i = length; i-- > 0;) {
+	      if (list[i] === listener ||
+	          (list[i].listener && list[i].listener === listener)) {
+	        position = i;
+	        break;
+	      }
+	    }
+
+	    if (position < 0)
+	      return this;
+
+	    if (list.length === 1) {
+	      list.length = 0;
+	      delete this._events[type];
+	    } else {
+	      list.splice(position, 1);
+	    }
+
+	    if (this._events.removeListener)
+	      this.emit('removeListener', type, listener);
+	  }
+
+	  return this;
+	};
+
+	EventEmitter.prototype.removeAllListeners = function(type) {
+	  var key, listeners;
+
+	  if (!this._events)
+	    return this;
+
+	  // not listening for removeListener, no need to emit
+	  if (!this._events.removeListener) {
+	    if (arguments.length === 0)
+	      this._events = {};
+	    else if (this._events[type])
+	      delete this._events[type];
+	    return this;
+	  }
+
+	  // emit removeListener for all listeners on all events
+	  if (arguments.length === 0) {
+	    for (key in this._events) {
+	      if (key === 'removeListener') continue;
+	      this.removeAllListeners(key);
+	    }
+	    this.removeAllListeners('removeListener');
+	    this._events = {};
+	    return this;
+	  }
+
+	  listeners = this._events[type];
+
+	  if (isFunction(listeners)) {
+	    this.removeListener(type, listeners);
+	  } else if (listeners) {
+	    // LIFO order
+	    while (listeners.length)
+	      this.removeListener(type, listeners[listeners.length - 1]);
+	  }
+	  delete this._events[type];
+
+	  return this;
+	};
+
+	EventEmitter.prototype.listeners = function(type) {
+	  var ret;
+	  if (!this._events || !this._events[type])
+	    ret = [];
+	  else if (isFunction(this._events[type]))
+	    ret = [this._events[type]];
+	  else
+	    ret = this._events[type].slice();
+	  return ret;
+	};
+
+	EventEmitter.prototype.listenerCount = function(type) {
+	  if (this._events) {
+	    var evlistener = this._events[type];
+
+	    if (isFunction(evlistener))
+	      return 1;
+	    else if (evlistener)
+	      return evlistener.length;
+	  }
+	  return 0;
+	};
+
+	EventEmitter.listenerCount = function(emitter, type) {
+	  return emitter.listenerCount(type);
+	};
+
+	function isFunction(arg) {
+	  return typeof arg === 'function';
+	}
+
+	function isNumber(arg) {
+	  return typeof arg === 'number';
+	}
+
+	function isObject(arg) {
+	  return typeof arg === 'object' && arg !== null;
+	}
+
+	function isUndefined(arg) {
+	  return arg === void 0;
+	}
+
+
+/***/ },
+/* 172 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
+		query-string
+		Parse and stringify URL query strings
+		https://github.com/sindresorhus/query-string
+		by Sindre Sorhus
+		MIT License
+	*/
+	(function () {
+		'use strict';
+		var queryString = {};
+
+		queryString.parse = function (str) {
+			if (typeof str !== 'string') {
+				return {};
+			}
+
+			str = str.trim().replace(/^(\?|#)/, '');
+
+			if (!str) {
+				return {};
+			}
+
+			return str.trim().split('&').reduce(function (ret, param) {
+				var parts = param.replace(/\+/g, ' ').split('=');
+				var key = parts[0];
+				var val = parts[1];
+
+				key = decodeURIComponent(key);
+				// missing `=` should be `null`:
+				// http://w3.org/TR/2012/WD-url-20120524/#collect-url-parameters
+				val = val === undefined ? null : decodeURIComponent(val);
+
+				if (!ret.hasOwnProperty(key)) {
+					ret[key] = val;
+				} else if (Array.isArray(ret[key])) {
+					ret[key].push(val);
+				} else {
+					ret[key] = [ret[key], val];
+				}
+
+				return ret;
+			}, {});
+		};
+
+		queryString.stringify = function (obj) {
+			return obj ? Object.keys(obj).map(function (key) {
+				var val = obj[key];
+
+				if (Array.isArray(val)) {
+					return val.map(function (val2) {
+						return encodeURIComponent(key) + '=' + encodeURIComponent(val2);
+					}).join('&');
+				}
+
+				return encodeURIComponent(key) + '=' + encodeURIComponent(val);
+			}).join('&') : '';
+		};
+
+		if (true) {
+			!(__WEBPACK_AMD_DEFINE_RESULT__ = function() { return queryString; }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else if (typeof module !== 'undefined' && module.exports) {
+			module.exports = queryString;
+		} else {
+			self.queryString = queryString;
+		}
+	})();
+
+
+/***/ },
+/* 173 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _listItems = __webpack_require__(174);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var SearchResults = function SearchResults(props) {
+	  var keywords = props.data.find(function (item) {
+	    return item.key === 'keywords';
+	  });
+	  var people = props.data.find(function (item) {
+	    return item.key === 'people';
+	  });
+	  var documents = props.data.find(function (item) {
+	    return item.key === 'documents';
+	  });
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'auto-suggestion' + (props.opened ? ' open' : '') },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'auto-suggestion_keyword' },
+	      _react2.default.createElement(
+	        'h2',
+	        null,
+	        'Contact'
+	      ),
+	      _react2.default.createElement(
+	        'ul',
+	        null,
+	        keywords && keywords.view.hits.hits.map(function (item) {
+	          return _react2.default.createElement(_listItems.Keyword, { keyword: item.highlight, key: item._id });
+	        })
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'auto-suggestion_people' },
+	      _react2.default.createElement(
+	        'h2',
+	        null,
+	        'Matter'
+	      ),
+	      _react2.default.createElement(
+	        'ul',
+	        null,
+	        people && people.view.hits.hits.map(function (item) {
+	          return _react2.default.createElement(_listItems.Person, { person: item.highlight, key: item._id });
+	        })
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'auto-suggestion_documents' },
+	      _react2.default.createElement(
+	        'h2',
+	        null,
+	        'Client'
+	      ),
+	      _react2.default.createElement(
+	        'ul',
+	        null,
+	        documents && documents.view.hits.hits.map(function (item) {
+	          return _react2.default.createElement(_listItems.Document, { document: item.highlight, key: item._id });
+	        })
+	      )
+	    )
+	  );
+	};
+
+	exports.default = SearchResults;
+
+/***/ },
+/* 174 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.Document = exports.Person = exports.Keyword = undefined;
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	var Keyword = function Keyword(props) {
 	  return _react2.default.createElement(
 	    "li",
 	    null,
-	    _react2.default.createElement(
-	      "a",
-	      { href: "#" },
-	      props.keyword.title
-	    )
+	    _react2.default.createElement("a", { href: "#", dangerouslySetInnerHTML: { __html: props.keyword.keyword[0] } })
 	  );
 	};
 
 	var Person = function Person(props) {
 	  var _props$person = props.person;
-	  var name = _props$person.name;
-	  var handle = _props$person.handle;
-	  var title = _props$person.title;
-	  var ex = _props$person.ex;
+	  var fullname = _props$person.fullname;
+	  var url = _props$person.url;
+	  var jobtitle = _props$person.jobtitle;
+	  var userid = _props$person.userid;
 	  var email = _props$person.email;
 
 	  return _react2.default.createElement(
@@ -20466,7 +21174,7 @@
 	      _react2.default.createElement(
 	        "h4",
 	        { className: "suggestion-item__name" },
-	        name
+	        fullname[0]
 	      ),
 	      _react2.default.createElement(
 	        "div",
@@ -20474,17 +21182,13 @@
 	        _react2.default.createElement(
 	          "a",
 	          { href: "#" },
-	          handle
+	          url[0]
 	        )
 	      ),
 	      _react2.default.createElement(
 	        "div",
 	        { className: "suggestion-item__title-extension" },
-	        _react2.default.createElement(
-	          "div",
-	          null,
-	          title
-	        ),
+	        _react2.default.createElement("div", { dangerouslySetInnerHTML: { __html: jobtitle[0] } }),
 	        _react2.default.createElement(
 	          "div",
 	          null,
@@ -20492,7 +21196,7 @@
 	          _react2.default.createElement(
 	            "a",
 	            { href: "#" },
-	            ex
+	            userid[0]
 	          )
 	        )
 	      ),
@@ -20502,7 +21206,7 @@
 	        _react2.default.createElement(
 	          "a",
 	          { href: "#", className: "suggestion-item__email", title: "email" },
-	          email
+	          email[0]
 	        )
 	      )
 	    )
@@ -20511,156 +21215,19 @@
 
 	var Document = function Document(props) {
 	  var _props$document = props.document;
-	  var link = _props$document.link;
+	  var url = _props$document.url;
 	  var title = _props$document.title;
-	  var size = _props$document.size;
-	  var date = _props$document.date;
 
 	  return _react2.default.createElement(
 	    "li",
 	    { className: "document-item" },
-	    _react2.default.createElement(
-	      "div",
-	      { className: "document-item_col1" },
-	      _react2.default.createElement("a", { href: link, className: "document-item_icon" })
-	    ),
-	    _react2.default.createElement(
-	      "div",
-	      { className: "document-item_col2" },
-	      _react2.default.createElement(
-	        "a",
-	        { href: "#", className: "document-item_link" },
-	        title
-	      ),
-	      _react2.default.createElement(
-	        "div",
-	        null,
-	        size
-	      ),
-	      _react2.default.createElement(
-	        "div",
-	        null,
-	        "Date modified: ",
-	        date
-	      )
-	    )
+	    _react2.default.createElement("a", { href: url[0], className: "document-item_link", dangerouslySetInnerHTML: { __html: title[0] } })
 	  );
 	};
 
-	var SearchResults = function (_React$Component) {
-	  _inherits(SearchResults, _React$Component);
-
-	  function SearchResults() {
-	    _classCallCheck(this, SearchResults);
-
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SearchResults).call(this));
-
-	    _this.state = {
-	      opened: false
-	    };
-	    return _this;
-	  }
-
-	  _createClass(SearchResults, [{
-	    key: "componentDidMount",
-	    value: function componentDidMount() {
-	      this.setState({ opened: true });
-	    }
-	  }, {
-	    key: "render",
-	    value: function render() {
-	      return _react2.default.createElement(
-	        "div",
-	        { className: 'auto-suggestion' + (this.state.opened && ' opens') },
-	        _react2.default.createElement(
-	          "div",
-	          { className: "auto-suggestion_keyword" },
-	          _react2.default.createElement(
-	            "h2",
-	            null,
-	            "Contact"
-	          ),
-	          _react2.default.createElement("ul", null)
-	        ),
-	        _react2.default.createElement(
-	          "div",
-	          { className: "auto-suggestion_people" },
-	          _react2.default.createElement(
-	            "h2",
-	            null,
-	            "Matter"
-	          ),
-	          _react2.default.createElement("ul", null)
-	        ),
-	        _react2.default.createElement(
-	          "div",
-	          { className: "auto-suggestion_documents" },
-	          _react2.default.createElement(
-	            "h2",
-	            null,
-	            "Client"
-	          ),
-	          _react2.default.createElement("ul", null)
-	        )
-	      );
-	    }
-	  }]);
-
-	  return SearchResults;
-	}(_react2.default.Component);
-
-	var Form = function (_React$Component2) {
-	  _inherits(Form, _React$Component2);
-
-	  function Form() {
-	    _classCallCheck(this, Form);
-
-	    var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(Form).call(this));
-
-	    _this2.state = {
-	      data: {},
-	      query: ''
-	    };
-	    return _this2;
-	  }
-
-	  _createClass(Form, [{
-	    key: "render",
-	    value: function render() {
-	      var _this3 = this;
-
-	      return _react2.default.createElement(
-	        "div",
-	        null,
-	        _react2.default.createElement(
-	          "div",
-	          { className: "header-search", id: "header-search" },
-	          _react2.default.createElement(
-	            "form",
-	            { className: "quick-search-component", "data-reactid": ".0" },
-	            _react2.default.createElement(
-	              "label",
-	              { "for": "header-search_input", className: "element-invisible" },
-	              "Search"
-	            ),
-	            _react2.default.createElement("input", { value: this.state.query,
-	              onChange: function onChange(e) {
-	                return _this3.setState({ query: e.target.value });
-	              },
-	              type: "text",
-	              autocomplete: "false",
-	              className: "header-search__input" })
-	          )
-	        ),
-	        this.state.query.length >= 3 && _react2.default.createElement(SearchResults, null)
-	      );
-	    }
-	  }]);
-
-	  return Form;
-	}(_react2.default.Component);
-
-	exports.default = Form;
+	exports.Keyword = Keyword;
+	exports.Person = Person;
+	exports.Document = Document;
 
 /***/ }
 /******/ ]);
