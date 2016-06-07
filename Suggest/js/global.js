@@ -15,15 +15,15 @@
     });
 
     var lists = {
-        Keyword: {
+        keywords: {
             tpl: $('#keyword_template').html(),
             $list: $('.auto-suggestion_keyword ul')
         },
-        People: {
+        people: {
             tpl: $('#people_template').html(),
             $list: $('.auto-suggestion_people ul')
         },
-        Documents: {
+        documents: {
             tpl: $('#document_template').html(),
             $list: $('.auto-suggestion_documents ul')
         }
@@ -37,40 +37,23 @@
     }
 
     function fillList(data) {
-        for (var i in data) {
-            for (var j = 0; j < data[i].length; j++) {
-                lists[i].$list.append(Mustache.render(lists[i].tpl, data[i][j]))
-            }
+        for (var j = 0; j < data.view.hits.hits.length; j++) {
+            lists[data.key].$list.append(Mustache.render(lists[data.key].tpl, data.view.hits.hits[j].highlight))
+            console.log(data.view.hits.hits[j].highlight);
         }
-    }
-
-    function itemContainQuery(query, item) {
-        for (var i in item) {
-            if (item[i].indexOf(query) !== -1)
-                return true;
-        }
-        return false;
-    }
-
-    function filterData(data, query) {
-        var filteredData = {};
-        for (var i in data) {
-            filteredData[i] = data[i].filter(itemContainQuery.bind(this, query));
-        }
-        return filteredData;
     }
 
     function searchData(query){
         $.ajax({
             type: "GET",
             dataType: "json",
-            url: "js/data.js",
+            url: "/search",
             data: {query: query},
             success: function(data)
             {
                 clearLists();
-                for (var i = 0; i < data.length; i++) {
-                    fillList(filterData(data[i], query));
+                for (var i = 0; i < data.aggregations.suggestions.buckets.length; i++) {
+                    fillList(data.aggregations.suggestions.buckets[i]);
                 }
             }
 

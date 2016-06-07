@@ -966,14 +966,6 @@ html .form-submit,body .form-submit {
   padding: 5px 0;
 }
 
-.auto-suggestion_people .suggestion-item__title-extension div {
-  float: left;
-}
-
-.auto-suggestion_people .suggestion-item__title-extension div ~ div {
-  float: right;
-}
-
 .auto-suggestion_documents {
   width: 34%;
   padding: 0 40px;
