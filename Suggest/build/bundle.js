@@ -21171,11 +21171,7 @@
 	    _react2.default.createElement(
 	      "div",
 	      { className: "suggestion-item_col2" },
-	      _react2.default.createElement(
-	        "h4",
-	        { className: "suggestion-item__name" },
-	        fullname[0]
-	      ),
+	      _react2.default.createElement("h4", { className: "suggestion-item__name", dangerouslySetInnerHTML: { __html: fullname[0] } }),
 	      _react2.default.createElement(
 	        "div",
 	        { className: "suggestion-item__handle" },

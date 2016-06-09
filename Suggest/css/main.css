@@ -902,6 +902,10 @@ html .form-submit,body .form-submit {
   border-left: solid #e6e6e6 1px;
 }
 
+.auto-suggestion em {
+  font-weight: bold;
+}
+
 .auto-suggestion:first-child {
   border-left-width: 0;
 }
@@ -964,6 +968,10 @@ html .form-submit,body .form-submit {
 
 .auto-suggestion_people .suggestion-item__handle {
   padding: 5px 0;
+}
+
+.auto-suggestion_people .suggestion-item__email {
+  word-break: break-all;
 }
 
 .auto-suggestion_documents {
