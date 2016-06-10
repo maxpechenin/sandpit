@@ -20,7 +20,7 @@ let Person = props => {
         <img src="/img/65x65textphoto.png" className="suggestion-item__photo" alt="" />
       </div>
       <div className="suggestion-item_col2">
-        <h4 className="suggestion-item__name">{fullname[0]}</h4>
+        <h4 className="suggestion-item__name" dangerouslySetInnerHTML={{__html: fullname[0]}} />
         <div className="suggestion-item__handle"><a href="#">{url[0]}</a></div>
         <div className="suggestion-item__title-extension">
           <div dangerouslySetInnerHTML={{__html: jobtitle[0]}} />

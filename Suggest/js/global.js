@@ -48,7 +48,7 @@
             type: "GET",
             dataType: "json",
             url: "/search",
-            data: {query: query},
+            data: {q: query},
             success: function(data)
             {
                 clearLists();

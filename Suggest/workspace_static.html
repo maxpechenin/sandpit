@@ -9,7 +9,7 @@
 </head>
 <script type="javascript/template" id="keyword_template">
     <li>
-        <a href="#">{{keyword}}</a>
+        <a href="#">{{{keyword}}}</a>
     </li>
 </script>
 <script type="javascript/template" id="people_template">
@@ -18,21 +18,21 @@
             <img src="/img/65x65textphoto.png" class="suggestion-item__photo" alt="">
         </div>
         <div class="suggestion-item_col2">
-            <h4 class="suggestion-item__name">{{fullname}}</h4>
-            <div class="suggestion-item__handle"><a href="#">{{url}}</a></div>
+            <h4 class="suggestion-item__name">{{{fullname}}}</h4>
+            <div class="suggestion-item__handle"><a href="#">{{{url}}}</a></div>
             <div class="suggestion-item__title-extension">
-                <div>{{jobtitle}}</div>
-                <div>ex: <a href="#">{{userid}}</a></div>
+                <div>{{{jobtitle}}}</div>
+                <div>ex: <a href="#">{{{userid}}}</a></div>
             </div>
             <div>
-                <a href="#" class="suggestion-item__email" title="email">{{email}}</a>
+                <a href="#" class="suggestion-item__email" title="email">{{{email}}}</a>
             </div>
         </div>
     </li>
 </script>
 <script type="javascript/template" id="document_template">
     <li class="document-item">
-        <a href="{{url}}" class="document-item_link">{{title}}</a>
+        <a href="{{{url}}}" class="document-item_link">{{{title}}}</a>
     </li>
 </script>
 <body>
