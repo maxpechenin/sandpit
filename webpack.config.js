@@ -17,7 +17,7 @@ module.exports = {
     ]
   },
   devServer: {
-    contentBase: 'Suggest\\',
+    contentBase: 'Suggest/',
     proxy: {
       '/search*': {
         target: {
