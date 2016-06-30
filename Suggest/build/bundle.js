@@ -20375,35 +20375,86 @@
 	  value: true
 	});
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Header = function Header(props) {
-	  return _react2.default.createElement(
-	    "header",
-	    { className: "header" },
-	    _react2.default.createElement(
-	      "div",
-	      { className: "layout-max" },
-	      _react2.default.createElement(
-	        "div",
-	        { className: "layout-header" },
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Header = function (_React$Component) {
+	  _inherits(Header, _React$Component);
+
+	  function Header() {
+	    _classCallCheck(this, Header);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Header).call(this));
+
+	    _this._handleKeydown = _this._handleKeydown.bind(_this);
+	    _this._subscribeFunction = _this._subscribeFunction.bind(_this);
+	    _this.subscribedFunctions = [];
+	    return _this;
+	  }
+
+	  _createClass(Header, [{
+	    key: "getChildContext",
+	    value: function getChildContext() {
+	      return {
+	        subscribedKeydown: this._subscribeFunction
+	      };
+	    }
+	  }, {
+	    key: "_handleKeydown",
+	    value: function _handleKeydown(e) {
+	      this.subscribedFunctions.forEach(function (func) {
+	        return func(e);
+	      });
+	    }
+	  }, {
+	    key: "_subscribeFunction",
+	    value: function _subscribeFunction(func) {
+	      this.subscribedFunctions.push(func);
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "header",
+	        { className: "header", onKeyDown: this._handleKeydown },
 	        _react2.default.createElement(
 	          "div",
-	          { className: "layout-header__main" },
+	          { className: "layout-max" },
 	          _react2.default.createElement(
-	            "a",
-	            { href: "", rel: "home", className: "header__logo", title: "Intranet Homepage" },
-	            _react2.default.createElement("img", { src: "img/intranet-logo.svg", alt: "", className: "header__logo-image" })
-	          ),
-	          props.children
+	            "div",
+	            { className: "layout-header" },
+	            _react2.default.createElement(
+	              "div",
+	              { className: "layout-header__main" },
+	              _react2.default.createElement(
+	                "a",
+	                { href: "", rel: "home", className: "header__logo", title: "Intranet Homepage" },
+	                _react2.default.createElement("img", { src: "img/intranet-logo.svg", alt: "", className: "header__logo-image" })
+	              ),
+	              this.props.children
+	            )
+	          )
 	        )
-	      )
-	    )
-	  );
+	      );
+	    }
+	  }]);
+
+	  return Header;
+	}(_react2.default.Component);
+
+	Header.childContextTypes = {
+	  subscribedKeydown: _react2.default.PropTypes.func
 	};
 
 	exports.default = Header;
@@ -20434,11 +20485,17 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var getJsonWithQuery = function getJsonWithQuery(query) {
+	  return { "aggs": { "suggestions": { "terms": { "field": "_type" }, "aggs": { "view": { "top_hits": { "size": 5, "_source": ["title", "description", "modified", "published", "url", "fullname", "email", "phone", "jobtitle", "imageurl"], "highlight": { "require_field_match": false, "fields": { "keyword": { "no_match_size": 50 }, "title": { "no_match_size": 50 }, "modified": { "no_match_size": 50 }, "url": { "no_match_size": 50 }, "fullname": { "no_match_size": 50 }, "email": { "no_match_size": 50 }, "userid": { "no_match_size": 50 }, "phone": { "no_match_size": 50 }, "jobtitle": { "no_match_size": 50 }, "imageurl": { "no_match_size": 50 } } } } } } } }, "query": { "query_string": { "query": query, "default_field": "_all", "default_operator": "and" } }, "size": 0 };
+	};
 
 	var Form = function (_React$Component) {
 	  _inherits(Form, _React$Component);
@@ -20448,9 +20505,16 @@
 
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Form).call(this));
 
-	    _this.loadAndProcessData = _this._loadAndProcessData.bind(_this);
-	    _this.url = '/search';
-	    _this.threshold = 1;
+	    _this._loadAndProcessData = _this._loadAndProcessData.bind(_this);
+	    _this._handleKeydown = _this._handleKeydown.bind(_this);
+	    _this.urls = {
+	      all: '/search/dcom/_search',
+	      people: '/search/dcom/_search',
+	      documents: '/search/dcom/_search',
+	      keywords: '/search/dcom/_search'
+	    };
+	    _this.types = ['people', 'documents', 'keywords'];
+	    _this.threshold = 3;
 	    _this.state = {
 	      data: [],
 	      query: ''
@@ -20459,28 +20523,57 @@
 	  }
 
 	  _createClass(Form, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      document.addEventListener('keydown', this._handleKeydown);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      document.removeEventListener('keydown', this._handleKeydown);
+	    }
+	  }, {
 	    key: 'componentDidUpdate',
 	    value: function componentDidUpdate(props, state) {
-	      if (this.state.query !== state.query) this._loadAndProcessData();
+	      if (this.state.query !== state.query && this.state.query.length >= this.threshold) this._loadAndProcessData('all');
 	    }
 	  }, {
 	    key: '_loadAndProcessData',
-	    value: function _loadAndProcessData() {
+	    value: function _loadAndProcessData(type) {
 	      var _this2 = this;
 
 	      var query = this.state.query;
 	      var request = new _simpleAjax2.default({
-	        url: this.url,
-	        method: 'GET',
+	        url: this.urls[type],
+	        method: 'POST',
+	        contentType: 'application/json',
 	        dataType: 'JSON',
-	        data: { q: this.state.query }
+	        data: JSON.stringify(getJsonWithQuery(this.state.query))
 	      });
 	      request.on('success', function (response) {
 	        if (query === _this2.state.query) {
-	          _this2.setState({ data: JSON.parse(response.currentTarget.response).aggregations.suggestions.buckets });
+	          var buckets = JSON.parse(response.currentTarget.response).aggregations.suggestions.buckets.filter(function (bucket) {
+	            return bucket.key === type || type === 'all';
+	          });
+	          var data = _this2.types.reduce(function (array, currentType) {
+	            var bucket = buckets.find(function (bucket) {
+	              return bucket.key === currentType;
+	            }) || type !== 'all' && _this2.state.data.find(function (bucket) {
+	              return bucket.key === currentType;
+	            });
+	            return bucket ? [].concat(_toConsumableArray(array), [bucket]) : array;
+	          }, []);
+	          _this2.setState({ data: data });
 	        }
 	      });
 	      request.send();
+	    }
+	  }, {
+	    key: '_handleKeydown',
+	    value: function _handleKeydown(e) {
+	      if (e.keyCode === 27) {
+	        this.setState({ query: '', data: [] });
+	      }
 	    }
 	  }, {
 	    key: 'render',
@@ -20495,7 +20588,9 @@
 	          { className: 'header-search', id: 'header-search' },
 	          _react2.default.createElement(
 	            'form',
-	            { className: 'quick-search-component', 'data-reactid': '.0' },
+	            { className: 'quick-search-component', onSubmit: function onSubmit(e) {
+	                e.preventDefault();_this3._loadAndProcessData('all');
+	              } },
 	            _react2.default.createElement(
 	              'label',
 	              { 'for': 'header-search_input', className: 'element-invisible' },
@@ -20507,10 +20602,15 @@
 	              },
 	              type: 'text',
 	              autocomplete: 'false',
-	              className: 'header-search__input' })
+	              className: 'header-search__input' }),
+	            _react2.default.createElement('input', { type: 'submit', className: 'header-search__icon' })
 	          )
 	        ),
-	        _react2.default.createElement(_searchResults2.default, { opened: this.state.query.length >= this.threshold, data: this.state.data })
+	        _react2.default.createElement(_searchResults2.default, {
+	          opened: this.state.data.length > 0 || this.state.query.length >= this.threshold,
+	          data: this.state.data,
+	          loadMore: this._loadAndProcessData
+	        })
 	      );
 	    }
 	  }]);
@@ -20519,6 +20619,11 @@
 	}(_react2.default.Component);
 
 	exports.default = Form;
+
+
+	Form.contextTypes = {
+	  subscribedKeydown: _react2.default.PropTypes.func
+	};
 
 /***/ },
 /* 170 */
@@ -21061,6 +21166,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var threshold = 2;
+
 	var SearchResults = function SearchResults(props) {
 	  var keywords = props.data.find(function (item) {
 	    return item.key === 'keywords';
@@ -21088,6 +21195,13 @@
 	        keywords && keywords.view.hits.hits.map(function (item) {
 	          return _react2.default.createElement(_listItems.Keyword, { keyword: item.highlight, key: item._id });
 	        })
+	      ),
+	      keywords && keywords.view.hits.hits.length >= threshold && _react2.default.createElement(
+	        'div',
+	        { onClick: function onClick(e) {
+	            return props.loadMore('keywords');
+	          }, className: 'auto-suggestion_load-more' },
+	        'Load more'
 	      )
 	    ),
 	    _react2.default.createElement(
@@ -21104,6 +21218,13 @@
 	        people && people.view.hits.hits.map(function (item) {
 	          return _react2.default.createElement(_listItems.Person, { person: item.highlight, key: item._id });
 	        })
+	      ),
+	      people && people.view.hits.hits.length >= threshold && _react2.default.createElement(
+	        'div',
+	        { onClick: function onClick(e) {
+	            return props.loadMore('people');
+	          }, className: 'auto-suggestion_load-more' },
+	        'Load more'
 	      )
 	    ),
 	    _react2.default.createElement(
@@ -21120,6 +21241,13 @@
 	        documents && documents.view.hits.hits.map(function (item) {
 	          return _react2.default.createElement(_listItems.Document, { document: item.highlight, key: item._id });
 	        })
+	      ),
+	      documents && documents.view.hits.hits.length >= threshold && _react2.default.createElement(
+	        'div',
+	        { onClick: function onClick(e) {
+	            return props.loadMore('documents');
+	          }, className: 'auto-suggestion_load-more' },
+	        'Load more'
 	      )
 	    )
 	  );

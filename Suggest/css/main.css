@@ -473,6 +473,10 @@ h5 {
   max-width: 720px;
 }
 
+.header {
+  min-height: 100vh;
+}
+
 h1,.contact-form,.form,.header {
   padding: 1rem;
 }
@@ -709,6 +713,19 @@ html .form-submit,body .form-submit {
   width: 485px;
   padding: 0px;
   float: left;
+}
+
+.layout-header .layout-header__main .header-search .header-search__icon {
+    width: 35px;
+    float: right;
+    background-image: url(../img/searcha4de.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: top right;
+    height: 35px;
+    background-color: transparent;
+    text-indent: -99999px;
+    border: none;
 }
 
 .header-personal__icon {
@@ -1026,6 +1043,16 @@ html .form-submit,body .form-submit {
   padding-bottom: 5px;
   font: normal 1.25em Roboto, sans-serif, monospace;
   color: #005bda;
+}
+
+.auto-suggestion_load-more {
+  color: #005bda;
+  cursor: pointer;
+}
+
+.auto-suggestion_load-more:hover, .auto-suggestion_load-more:active {
+  color: #006afc;
+  text-decoration: underline;
 }
 
 @media (max-width: 1224px) {

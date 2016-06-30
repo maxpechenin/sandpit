@@ -20,8 +20,15 @@ module.exports = {
     contentBase: 'Suggest\\',
     proxy: {
       '/search*': {
-        target: 'http://40.127.88.96/search',
-        secure: false
+        target: {
+          "host": "54.206.102.181",
+          "protocol": 'http:',
+          "port": 9200
+        },
+        secure: false,
+        rewrite: function(req) {
+          req.url = req.url.replace(/^\/search/, '');
+        }
       }
     }
   }   
