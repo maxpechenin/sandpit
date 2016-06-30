@@ -20542,7 +20542,6 @@
 	    value: function _loadAndProcessData(type) {
 	      var _this2 = this;
 
-	      console.log(type);
 	      var query = this.state.query;
 	      var request = new _simpleAjax2.default({
 	        url: this.urls[type],
@@ -21201,7 +21200,7 @@
 	        'div',
 	        { onClick: function onClick(e) {
 	            return props.loadMore('keywords');
-	          }, className: 'suggestion-load_more' },
+	          }, className: 'auto-suggestion_load-more' },
 	        'Load more'
 	      )
 	    ),
@@ -21224,7 +21223,7 @@
 	        'div',
 	        { onClick: function onClick(e) {
 	            return props.loadMore('people');
-	          }, className: 'suggestion-load_more' },
+	          }, className: 'auto-suggestion_load-more' },
 	        'Load more'
 	      )
 	    ),
@@ -21247,7 +21246,7 @@
 	        'div',
 	        { onClick: function onClick(e) {
 	            return props.loadMore('documents');
-	          }, className: 'suggestion-load_more' },
+	          }, className: 'auto-suggestion_load-more' },
 	        'Load more'
 	      )
 	    )

@@ -22,7 +22,7 @@ let SearchResults = props => {
         </ul>
         {
           keywords && keywords.view.hits.hits.length >= threshold &&
-          <div onClick={(e) => props.loadMore('keywords')} className="suggestion-load_more">Load more</div>
+          <div onClick={(e) => props.loadMore('keywords')} className="auto-suggestion_load-more">Load more</div>
         }
       </div>
       <div className="auto-suggestion_people">
@@ -34,7 +34,7 @@ let SearchResults = props => {
         </ul>
         {
           people && people.view.hits.hits.length >= threshold &&
-          <div onClick={(e) => props.loadMore('people')} className="suggestion-load_more">Load more</div>
+          <div onClick={(e) => props.loadMore('people')} className="auto-suggestion_load-more">Load more</div>
         }
       </div>
       <div className="auto-suggestion_documents">
@@ -46,7 +46,7 @@ let SearchResults = props => {
         </ul>
         {
           documents && documents.view.hits.hits.length >= threshold &&
-          <div onClick={(e) => props.loadMore('documents')} className="suggestion-load_more">Load more</div>
+          <div onClick={(e) => props.loadMore('documents')} className="auto-suggestion_load-more">Load more</div>
         }
       </div>
     </div>

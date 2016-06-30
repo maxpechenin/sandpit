@@ -1045,6 +1045,16 @@ html .form-submit,body .form-submit {
   color: #005bda;
 }
 
+.auto-suggestion_load-more {
+  color: #005bda;
+  cursor: pointer;
+}
+
+.auto-suggestion_load-more:hover, .auto-suggestion_load-more:active {
+  color: #006afc;
+  text-decoration: underline;
+}
+
 @media (max-width: 1224px) {
   .auto-suggestion {
     left: -5px;

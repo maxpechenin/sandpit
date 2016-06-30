@@ -39,7 +39,6 @@ export default class Form extends React.Component {
   }
 
   _loadAndProcessData(type) {
-    console.log(type);
     let query = this.state.query;
     let request = new Ajax({
       url: this.urls[type],
