@@ -1044,15 +1044,24 @@ html .form-submit,body .form-submit {
   font: normal 1.25em Roboto, sans-serif, monospace;
   color: #005bda;
 }
-
-.auto-suggestion_load-more {
+.auto-suggestion_more {
+  display: none;
+}
+.auto-suggestion_load-more, .auto-suggestion_more {
   color: #005bda;
   cursor: pointer;
 }
 
-.auto-suggestion_load-more:hover, .auto-suggestion_load-more:active {
+.auto-suggestion_load-more:hover,
+.auto-suggestion_more:hover,
+.auto-suggestion_load-more:active,
+.auto-suggestion_more:active {
   color: #006afc;
   text-decoration: underline;
+}
+
+.auto-suggestion-more-active .auto-suggestion_more {
+  display: block;
 }
 
 @media (max-width: 1224px) {
