@@ -75,7 +75,7 @@ export default class Form extends React.Component {
             <input value={this.state.query}
               onChange={ e => this.setState({query: e.target.value}) }
               type="text"
-              autocomplete="false"
+              autocomplete="off"
               className="header-search__input" />
             <input type="submit" className="header-search__icon" />
           </form>
