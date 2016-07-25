@@ -8,10 +8,10 @@
         searchThreshold = 3,
         showMoreThreshold = 2,
         urls = {
-            all: '/search/dcom/_search',
-            people: '/search/dcom/_search',
-            documents: '/search/dcom/_search',
-            keywords: '/search/dcom/_search',
+            all: 'http://40.127.88.96/search',
+            people: 'http://40.127.88.96/search',
+            documents: 'http://40.127.88.96/search',
+            keywords: 'http://40.127.88.96/search'
         };
 
     var handleKeydown = function(e) {
@@ -44,11 +44,6 @@
     });
 
     document.addEventListener('keyup', handleKeydown);
-
-    var getJsonWithQuery = function(query) {
-        return { "aggs": { "suggestions": { "terms": { "field": "_type" }, "aggs": { "view": { "top_hits": { "size": 5, "_source": ["title","description","modified","published","url","fullname","email","phone","jobtitle","imageurl"], "highlight": { "require_field_match": false, "fields": { "keyword": {"no_match_size": 50}, "title": {"no_match_size": 50}, "modified": {"no_match_size": 50}, "url": {"no_match_size": 50}, "fullname": {"no_match_size": 50}, "email": {"no_match_size": 50}, "userid": {"no_match_size": 50}, "phone": {"no_match_size": 50}, "jobtitle": {"no_match_size": 50}, "imageurl": {"no_match_size": 50} } } } } } } }, "query": { "query_string": { "query": query, "default_field": "_all", "default_operator": "and" } }, "size": 0 }
-    }
-
 
     var lists = {
         keywords: {
@@ -88,10 +83,9 @@
     function searchData(query, type){
         $.ajax({
             url: urls[type],
-            type: 'POST',
             contentType: 'application/json',
-            dataType: 'JSON',
-            data: JSON.stringify(getJsonWithQuery(query)),
+            dataType: 'jsonp',
+            data: {q: query},
             success: function(data)
             {
                 if (query === $searchField.val()) {
