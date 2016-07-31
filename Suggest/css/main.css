@@ -952,6 +952,23 @@ html .form-submit,body .form-submit {
   border-left: 0px !important;
 }
 
+.auto-suggestion_cash {
+  width: 33%;
+  padding: 0 40px;
+}
+
+.auto-suggestion_cash a {
+  font: 1.25em/2 Roboto,sans-serif,monospace;
+}
+
+.auto-suggestion_cash {
+  border-left: 0px !important;
+}
+
+.auto-suggestion_cash .document-item {
+  margin-bottom: 20px;
+}
+
 .auto-suggestion_people {
   width: 33%;
   padding: 0 40px;
@@ -988,6 +1005,59 @@ html .form-submit,body .form-submit {
 }
 
 .auto-suggestion_people .suggestion-item__email {
+  word-break: break-all;
+}
+
+.auto-suggestion_item {
+  width: 33%;
+  padding: 0 40px;
+}
+
+.auto-suggestion_item .suggestion-item {
+  display: flex;
+  padding: 17px 0;
+  font-family: Roboto,sans-serif,monospace;
+  line-height: 1.3em;
+  color: #565757;
+}
+
+.auto-suggestion_item .suggestion-item_col1 {
+  width: 25%;
+  padding-top: 25%;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 5%;
+  border: 1px solid #dedede;
+  box-sizing: border-box;
+  position: relative;
+}
+.auto-suggestion_item .suggestion-item_col1 img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.auto-suggestion_item .suggestion-item_col2 {
+  width: 70%;
+}
+
+.auto-suggestion_item .suggestion-item__name {
+  font-size: 1.25em;
+  color: #005bda;
+  margin: 0;
+}
+
+.auto-suggestion_item .suggestion-item__photo {
+  border-radius: 100%;
+}
+
+.auto-suggestion_item .suggestion-item__handle {
+  padding: 5px 0;
+}
+
+.auto-suggestion_item .suggestion-item__email {
   word-break: break-all;
 }
 
@@ -1082,7 +1152,15 @@ html .form-submit,body .form-submit {
     font: 1em/2 Roboto,sans-serif,monospace;
   }
 
+  .auto-suggestion_cash a {
+    font: 1em/2 Roboto,sans-serif,monospace;
+  }
+
   .auto-suggestion_people {
+    padding: 0 20px;
+  }
+
+  .auto-suggestion_item {
     padding: 0 20px;
   }
 
@@ -1090,7 +1168,15 @@ html .form-submit,body .form-submit {
     font-size: 1em;
   }
 
+  .auto-suggestion_item .suggestion-item__name {
+    font-size: 1em;
+  }
+
   .auto-suggestion_keyword ul {
+    margin-top: 30px;
+  }
+
+  .auto-suggestion_cash ul {
     margin-top: 30px;
   }
 }

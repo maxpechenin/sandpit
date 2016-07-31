@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Search</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./css/main.css" media="all">
+    <link rel="stylesheet" type="text/css" href="./css/css.css" media="all">
+</head>
+<script type="javascript/template" id="web_template">
+    <li>
+        <a target="_blank" href="{{ contentid }}">{{title}}</a>
+        <div>{{ description }}</div>
+    </li>
+</script>
+<script type="javascript/template" id="item_template">
+    <li class="suggestion-item">
+        <div class="suggestion-item_col1">
+            <img src="{{ thumbnailSmallImageURL }}" class="suggestion-item__photo" alt="">
+        </div>
+        <div class="suggestion-item_col2">
+            <h4 class="suggestion-item__name">{{{name}}}</h4>
+        </div>
+    </li>
+</script>
+<script type="javascript/template" id="cash_template">
+    <li class="document-item">
+        <h4>{{{title}}}</h4>
+        <div>{{{ description }}}</div>
+    </li>
+</script>
+<body>
+    <header class="header">
+        <div class="layout-max">
+            <div class="layout-header">
+                <div class="layout-header__main">
+                    <a href="" rel="home" class="header__logo" title="Intranet Homepage">
+                        <img src="img/intranet-logo.svg" alt="" class="header__logo-image">
+                    </a>
+                    <div class="header-search" id="header-search">
+                        <form class="quick-search-component">
+                            <label for="header-search_input" class="element-invisible">Search</label>
+                            <input type="text" id="header-search_input" autocomplete="off" class="header-search__input">
+                            <input type="submit" class="header-search__icon" />
+                        </form>
+                    </div>
+                    <div class="auto-suggestion">
+                        <div class="auto-suggestion_keyword">
+                            <h2>Web</h2>
+                            <ul>
+                            </ul>
+                            <div class="auto-suggestion_more" data-type="web">Load more</div>
+                        </div>
+                        <div class="auto-suggestion_item">
+                            <h2>Store</h2>
+                            <ul>
+                            </ul>
+                            <div class="auto-suggestion_more" data-type="item">Load more</div>
+                        </div>
+                        <div class="auto-suggestion_cash">
+                            <h2>Cash</h2>
+                            <ul>
+                            </ul>
+                            <div class="auto-suggestion_more" data-type="cash">Load more</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+<script src="./js/jquery.js"></script>
+<script src="./js/mustache.min.js"></script>
+<script src="./js/global2.js"></script>
+</body>
+</html>
