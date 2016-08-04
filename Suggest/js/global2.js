@@ -86,7 +86,7 @@
             url: urls[type],
             contentType: 'application/json',
             dataType: 'jsonp',
-            data: {query: query},
+            data: {q: query},
             success: function(data)
             {
                 if (query === $searchField.val()) {
