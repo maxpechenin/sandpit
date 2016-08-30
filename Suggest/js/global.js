@@ -8,10 +8,22 @@
         searchThreshold = 3,
         showMoreThreshold = 2,
         urls = {
-            all: 'http://40.127.88.96/search',
-            people: 'http://40.127.88.96/search',
-            documents: 'http://40.127.88.96/search',
-            keywords: 'http://40.127.88.96/search'
+            all: {
+                url: 'http://40.127.88.96/search',
+                param: 'q'
+            },
+            web: {
+                url: 'http://40.127.88.96/search',
+                param: 'k'
+            },
+            item: {
+                url: 'http://40.127.88.96/search',
+                param: 'k'
+            },
+            cash: {
+                url: 'http://40.127.88.96/search',
+                param: 'k'
+            }
         };
 
     var handleKeydown = function(e) {
@@ -81,11 +93,13 @@
     }
 
     function searchData(query, type){
+        var data = {};
+        data[urls[type].param] = query;
         $.ajax({
-            url: urls[type],
+            url: urls[type].url,
             contentType: 'application/json',
             dataType: 'jsonp',
-            data: {q: query},
+            data: data,
             success: function(data)
             {
                 if (query === $searchField.val()) {
