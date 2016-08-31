@@ -984,6 +984,7 @@ html .form-submit,body .form-submit {
 
 .auto-suggestion_people .suggestion-item_col1 {
   width: 85px;
+  padding-right: 10px;
 }
 
 .auto-suggestion_people .suggestion-item_col2 {

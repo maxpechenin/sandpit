@@ -12,15 +12,15 @@
                 url: 'http://40.127.88.96/search',
                 param: 'q'
             },
-            web: {
+            people: {
                 url: 'http://40.127.88.96/search',
                 param: 'k'
             },
-            item: {
+            documents: {
                 url: 'http://40.127.88.96/search',
                 param: 'k'
             },
-            cash: {
+            keywords: {
                 url: 'http://40.127.88.96/search',
                 param: 'k'
             }
@@ -34,10 +34,6 @@
         }
     }
 
-    $loadMore.on('click', function() {
-        searchData($searchField.val(), $(this).data().type);
-    })
-
     $searchField.on('keyup blur', function() {
         var value = $searchField.val();
         if (value.length >= searchThreshold) {
@@ -45,6 +41,11 @@
             $suggest.addClass('open');
         } else {
             $suggest.removeClass('open');
+        }
+        for (var type in urls) {
+            if (type !== 'all') {
+                $('.auto-suggestion_more[data-type="' + type + '"]').attr('href', urls[type].url + '?' + urls[type].param + '=' + value);
+            }
         }
     });
 
